@@ -9,9 +9,8 @@ void main() {
 }
 
 /// Widget: MyApp
-/// StatelessWidget - creates the app-wide state, names the app,
-///   defines the visual theme, and sets the "home" widget—the starting
-///   point of your app.
+/// StatelessWidget - creates the app-wide state, names the app, defines the visual theme,
+/// and sets the "home" widget—the starting point of your app.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
         title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+          colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 149, 162, 236)),
         ),
         home: MyHomePage(),
       ),
@@ -33,13 +32,13 @@ class MyApp extends StatelessWidget {
 
 /// Class: MyAppState
 /// ChangeNotifier - Defines the app's state. Notifies others about its changes.
-///   The state is created and provided to the whole app using a ChangeNotifierProvider
+///   The state is created and provided to the whole app by extending ChangeNotifierProvider
 ///   (see code above in MyApp). This allows any widget in the app to get hold of the state.
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
 
   void getNext() {
-    // getNext() method reassigns current with a new random WordPair.
+    // Reassigns current with a new random WordPair.
     current = WordPair.random();
 
     // Notifies MyAppState listeners of a change
@@ -48,39 +47,50 @@ class MyAppState extends ChangeNotifier {
 }
 
 /// Widget: MyHomePage
-///
+///   Contains the layout structure consisting of nested widgets
 class MyHomePage extends StatelessWidget {
+  // Rebuilds widget everytime dependencies change
   @override
   Widget build(BuildContext context) {
-    // Tracks changes to MyAppState to rebuild the widget
+    // Tracks changes to the app state (MyAppState)
     var appState = context.watch<MyAppState>();
 
-    // Extracts only the value needed (current word pair)
+    // Extracts only the attribute needed from class (current word pair)
     var pair = appState.current;
 
-    // Returns the Scaffold widget (the basic Material visual layout structure)
+    // Build methods must return a widget (Scaffold - top-level structure)
     return Scaffold(
-      // Column widget takes any number of children and displays them vertically.
-      body: Column(
-        children: [
-          // First child is a Text widget (a run of text with a single style)
-          Text('A random AWESOME idea:'),
-          // Second child is a reference to an imported widget containing the current word pair
-          BigCard(pair: pair),
-          // Third child is a button widget that calls the getNext() function to change current word
-          ElevatedButton(
-            onPressed: () {
-              appState.getNext();
-            },
-            child: Text('Next'),
-            // Add trailing commas for easy append and for Dart's auto newline
-          ),
-        ],
+      // Style widget to group child widgets in middle of horizontal axis
+      body: Center(
+        // Column - basic layout widget, takes multiple children and displays them vertically
+        child: Column(
+          // Centers child widgets in middle of vertical axis
+          mainAxisAlignment: MainAxisAlignment.center,
+
+          children: [
+            // 1st child - styled container widget holding current WordPair
+            BigCard(pair: pair),
+
+            // 2nd child - Empty style widget to create visual gap
+            SizedBox(height: 10),
+
+            // 3rd child - Button widget that calls the getNext() function for new random WordPair
+            ElevatedButton(
+              onPressed: () {
+                appState.getNext();
+              },
+              child: Text('Next'),
+              // Trailing commas for easy append and for Dart's auto newline
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
+/// Widget: BigCard
+///   Extracted from MyHomePage's Scaffold Widget (Refractor>Extract Widget)
 class BigCard extends StatelessWidget {
   const BigCard({
     Key? key,
@@ -91,23 +101,30 @@ class BigCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context); // Requests the app's current theme
+    // Requests the app's current theme
+    var theme = Theme.of(context);
 
-    // By using theme.textTheme, you access the app's font theme.
-    // displayMedium property is a large style meant for display text. use the ! operator ("bang operator") to assure Dart method is null-safe (always is).
-    // Calling copyWith() on displayMedium returns a copy of the text style with the changes you define
+    // Save a copy of the theme's font styles and change its color
     var style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
 
+    // Uses Composition instead of Inheritance by using Padding widgets (Refractor>Padding)
     return Card(
-      // Defines the card's color to be the same as the theme's colorScheme property.
+      // Styles the card using the theme's colorScheme property
       color: theme.colorScheme.primary,
+
+      // Sets the size of the card shadow
+      elevation: 4,
+
+      // Contains styled WordPair text and padding
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Text(pair.asLowerCase,
-            style:
-                style), // This second Text widget takes appState, and accesses the only member of that class, current (which is a WordPair). WordPair provides several helpful getters, such as asPascalCase or asSnakeCase. Here, we use asLowerCase but you can change this now if you prefer one of the alternatives
+        child: Text(
+          pair.asLowerCase,
+          style: style,
+          semanticsLabel: pair.asPascalCase,
+        ),
       ),
     );
   }
