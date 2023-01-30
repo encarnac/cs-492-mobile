@@ -239,9 +239,8 @@ class BigCard extends StatelessWidget {
   }
 }
 
-
 /// Page Widget: FavoritesPage
-///   
+///
 class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
