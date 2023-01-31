@@ -1,27 +1,32 @@
 import 'dart:io';
+import 'planet.dart';
 import 'planetary_system.dart';
 
 class SpaceAdventure {
-  PlanetarySystem planetarySystem;
+  final PlanetarySystem planetarySystem;
 
   SpaceAdventure({required this.planetarySystem});
 
   void start() {
     printGreeting();
     printIntroduction(responseToPrompt('What is your name?'));
-    print('Let\'s go on an adventure!\n');
-    travel(promptForRandomOrSpecificDestination(
-        'Shall I randomly choose a planet for you to visit? (Y or N)'));
+    print('Let\'s go on a space adventure!');
+    if (planetarySystem.hasPlanets) {
+      travel(setRoute(
+          'Shall I randomly choose a planet for you to visit? (Y or N)'));
+    } else {
+      print('Oh wait... there are no planets to explore.');
+    }
   }
 
   void printGreeting() {
-    print('Welcome to the ${planetarySystem.name}!');
-    print('There are 9 planets to explore.');
+    print('Welcome to the ${planetarySystem.name}!\n'
+        'There are ${planetarySystem.numberOfPlanets} planets to explore.');
   }
 
   void printIntroduction(String name) {
-    print(
-        'Nice to meet you, $name. My name is Colene. I\'m an old friend of Alexa');
+    print('Nice to meet you, $name.\n'
+        'My name is Colene and I will be your captain.');
   }
 
   String responseToPrompt(String prompt) {
@@ -29,25 +34,7 @@ class SpaceAdventure {
     return stdin.readLineSync() ?? '';
   }
 
-  void travelToRandomPlanet() {
-    print('Traveling to Mercury...\n'
-        'Arrived at Mercury. A very hot planet, closest to the sun.');
-  }
-
-  void travelTo(String planetName) {
-    print('Traveling to $planetName...\n'
-        'Arrived at $planetName. A very cold planet, furthest from the sun.');
-  }
-
-  void travel(bool randomDestination) {
-    if (randomDestination) {
-      travelToRandomPlanet();
-    } else {
-      travelTo(responseToPrompt('Name the planet you would like to visit.'));
-    }
-  }
-
-  bool promptForRandomOrSpecificDestination(String prompt) {
+  bool setRoute(String prompt) {
     String? answer;
     while (answer != 'Y' && answer != 'N') {
       answer = responseToPrompt(prompt);
@@ -59,5 +46,23 @@ class SpaceAdventure {
       print('Sorry I didn\'t get that.');
     }
     return false;
+  }
+
+  void travel(bool randomDestination) {
+    Planet planet;
+    if (randomDestination) {
+      planet = planetarySystem.randomPlanet();
+    } else {
+      planet = planetarySystem.chosenPlanet(
+        responseToPrompt('Name the planet you would like to visit.'),
+      );
+    }
+    travelToPlanet(planet);
+  }
+
+  void travelToPlanet(Planet planet) {
+    print('Traveling to ${planet.name}...\n'
+        'Arrived at ${planet.name}. ${planet.description}\n'
+        'Anyway, have a good rest of your trip. Goodbye!');
   }
 }
