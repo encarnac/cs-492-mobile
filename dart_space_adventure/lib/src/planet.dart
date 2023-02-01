@@ -1,9 +1,8 @@
 /// A single [Planet] amongst the [PlanetarySystem.planets].
 ///
 /// The Planet has a [Planet.name] and [Planet.description] which can be constructed from a JSON object
-/// passed to the [Planet.fromJson()] method or set to 'null' when no data is available.
+/// passed to the [Planet.fromJson()] method or set to 'null' when no data is provided..
 class Planet {
-  // The name and description of this planet.
   final String name;
   final String description;
 
@@ -14,8 +13,8 @@ class Planet {
       : name = 'null',
         description = 'null';
 
-  // The name and description of this planet are set to their matching key's value
-  // from the JSON object unless none is passed, in which case they are set to 'null'.
+  // This [Planet.name] and [Planet.description] are set to its matching key's value
+  // from the json object unless none is passed, in which case they are set to 'null'.
   factory Planet.fromJson(dynamic json) {
     if (json != null) {
       return Planet(

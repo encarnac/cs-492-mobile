@@ -2,14 +2,21 @@ import 'dart:io';
 import 'planet.dart';
 import 'planetary_system.dart';
 
+/// The user is prompted for their name and a [Planet] from [PlanetarySystem] to travel to.
+///
+/// The [PlanetarySystem] is introduced [printIntroduction()] before the user is prompted
+/// [responseToPrompt()] for their name and greeted [printGreeting()].
+/// The user picks [responseToPrompt()] whether to go to a random [Planet] or
+/// name a specific one [setRoute()] before traveling to it [travelToPlanet()]
+/// and reading its [Planet.description].
 class SpaceAdventure {
   final PlanetarySystem planetarySystem;
 
   SpaceAdventure({required this.planetarySystem});
 
   void start() {
-    printGreeting();
-    printIntroduction(responseToPrompt('What is your name?'));
+    printIntroduction();
+    printGreeting(responseToPrompt('What is your name?'));
     print('Let\'s go on a space adventure!');
     if (planetarySystem.hasPlanets) {
       travel(setRoute(
@@ -19,12 +26,12 @@ class SpaceAdventure {
     }
   }
 
-  void printGreeting() {
+  void printIntroduction() {
     print('Welcome to the ${planetarySystem.name}!\n'
         'There are ${planetarySystem.numberOfPlanets} planets to explore.');
   }
 
-  void printIntroduction(String name) {
+  void printGreeting(String name) {
     print('Nice to meet you, $name.\n'
         'My name is Colene and I will be your captain.');
   }
@@ -34,8 +41,11 @@ class SpaceAdventure {
     return stdin.readLineSync() ?? '';
   }
 
+  // Whether the user wants to name a [Planet] to set a specific route
+  // or go to a random one in [PlanetarySystem.planets].
   bool setRoute(String prompt) {
     String? answer;
+    // Continues to prompt user until valid answer given.
     while (answer != 'Y' && answer != 'N') {
       answer = responseToPrompt(prompt);
       if (answer == 'Y') {
@@ -48,6 +58,8 @@ class SpaceAdventure {
     return false;
   }
 
+  // Determines where to travel to depending on whether a set route
+  // or random destination was chosen.
   void travel(bool randomDestination) {
     Planet planet;
     if (randomDestination) {
