@@ -5,14 +5,14 @@ class CardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const String imageURI = 'assets/images/Image001.png';
-    const String name = 'Nelly Song';
-    const String jobTitle = 'Self-taught Programmer';
-    const String phone = '777-777-7777';
-    const String github = 'github.com/nelsong';
-    const String email = 'nelsong@gmail.com';
+    const String name = 'Colene Encarnado';
+    const String jobTitle = 'Aspiring Developer';
+    const String phone = '323-578-8030';
+    const String github = 'github.com/encarnac';
+    const String email = 'coleneenc@gmail.com';
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         profileImage(imageURI),
         profileName(context, name),
