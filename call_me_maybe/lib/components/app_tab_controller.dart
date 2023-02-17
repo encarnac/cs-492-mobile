@@ -4,8 +4,9 @@ import '../screens.dart';
 class AppTabController extends StatelessWidget {
   AppTabController({Key? key}) : super(key: key);
 
+  // Profile info shared between screens
   static Map profileInfo = {
-    'profileImg': 'assets/images/Image001.png',
+    'profileImg': 'assets/images/profile-img.png',
     'name': 'Colene Encarnado',
     'jobTitle': 'Aspiring Developer',
     'phone': '323-578-8030',
@@ -32,8 +33,12 @@ class AppTabController extends StatelessWidget {
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Call Me Maybe"),
-          bottom: const TabBar(tabs: tabs),
+          title: const Text("Call Me Maybe",
+              style: TextStyle(
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Sofia Pro Light')),
+          bottom: const TabBar(labelPadding: EdgeInsets.all(10), tabs: tabs),
         ),
         body: TabBarView(children: screens),
       ),

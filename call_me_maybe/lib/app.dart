@@ -9,7 +9,10 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Call Me Maybe',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+        fontFamily: 'Neue Haas',
+      ),
       home: Scaffold(body: AppTabController()),
     );
   }
