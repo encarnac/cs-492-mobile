@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/new_journal_entry.dart';
 import 'screens/welcome.dart';
 
 class App extends StatefulWidget {
-  const App({super.key});
+  final SharedPreferences preferences;
+
+  const App({super.key, required this.preferences});
 
   @override
   State createState() => AppState();
@@ -15,17 +18,11 @@ class AppState extends State<App> {
     NewJournalEntry.routeName: (context) => const NewJournalEntry(),
   };
 
-  late bool darkMode; // DONE: Lifted state up.
-
-  @override
-  void initState() {
-    super.initState();
-    darkMode = false;
-  }
+  bool get darkMode => widget.preferences.getBool("darkMode") ?? false;
 
   void updateDarkMode() {
     setState(() {
-      darkMode = !darkMode;
+      widget.preferences.setBool("darkMode", !darkMode);
     });
   }
 
