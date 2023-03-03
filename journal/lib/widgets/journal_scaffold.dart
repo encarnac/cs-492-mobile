@@ -21,6 +21,14 @@ class _JournalScaffoldState extends State<JournalScaffold> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.settings_rounded),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
+          ),
+        ],
       ),
       endDrawer: const JournalDrawer(),
       floatingActionButton: FloatingActionButton(
