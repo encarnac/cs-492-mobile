@@ -15,13 +15,16 @@ class JournalEntriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return JournalScaffold(
       title: "Journal Entries",
+      // Include itemCount to itemBuilder if known
+      // Use index to obtain data to pass to ListView child
       child: ListView.builder(itemBuilder: (context, index) {
         // TIP: Use ListTile as the primary child widget, not rows
         return ListTile(
             leading: const FlutterLogo(),
             trailing: const Icon(Icons.more_horiz),
             title: Text("Journal Entry ${items[index]["title"]}"),
-            subtitle: Text("Example ${items[index]["subtitle"]}"));
+            subtitle: Text("Example ${items[index]["subtitle"]}"),
+            onTap: () => Navigator.of(context).pushNamed("/"));
       }),
     );
   }
