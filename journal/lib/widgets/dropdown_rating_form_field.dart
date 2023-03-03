@@ -5,7 +5,7 @@ class DropdownRatingFormField extends StatefulWidget {
   final String? Function(dynamic) validator;
   final void Function(dynamic) onSaved;
 
-  DropdownRatingFormField(
+  const DropdownRatingFormField(
       {Key? key,
       required this.maxRating,
       required this.validator,
@@ -29,7 +29,7 @@ class DropdownRatingFormFieldState extends State<DropdownRatingFormField> {
         },
         decoration: InputDecoration(
           labelText: 'Rating',
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
           focusedBorder: OutlineInputBorder(
               borderSide:
                   BorderSide(color: Theme.of(context).colorScheme.secondary)),

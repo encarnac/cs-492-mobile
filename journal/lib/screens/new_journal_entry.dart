@@ -9,7 +9,7 @@ class NewJournalEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return JournalScaffold(
+    return const JournalScaffold(
       title: "New Journal Entry",
       child: JournalEntryForm(),
     );

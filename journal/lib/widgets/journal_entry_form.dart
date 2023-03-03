@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../db/journal_entry_dto.dart';
 import 'dropdown_rating_form_field.dart';
 
@@ -125,11 +126,11 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
           onPressed: () {
             // validate() calls each field's validator method and returns false if any fail
             if (formKey.currentState!.validate()) {
-              DateTime dateTime = DateTime.now();
-              journalEntryFields.dateTime = dateTime;
+              String date = DateFormat.yMMMMEEEEd().format(DateTime.now());
+              journalEntryFields.date = date;
               formKey.currentState?.save();
               // Complete save by transferring to database for data persistence
-              // print(journalEntryFields.toString());
+              print(journalEntryFields.toString());
               Navigator.of(context).pop();
             }
           },
