@@ -4,6 +4,7 @@ import '../models/journal_entry.dart';
 import '../widgets/journal_scaffold.dart';
 import '../widgets/welcome.dart';
 import '../app.dart';
+import 'journal_entry_details.dart';
 
 class AllJournalEntries extends StatefulWidget {
   static const routeName = "/";
@@ -16,10 +17,13 @@ class AllJournalEntries extends StatefulWidget {
 
 class _AllJournalEntriesState extends State<AllJournalEntries> {
   late Journal journal;
+  late JournalEntry entryDetails;
 
   @override
   void initState() {
     super.initState;
+    entryDetails =
+        JournalEntry(id: 0, title: "", body: "", rating: 0, date: "");
     loadJournal();
   }
 
@@ -41,6 +45,7 @@ class _AllJournalEntriesState extends State<AllJournalEntries> {
     // Assigns list of JournalEntry to create Journal object
     setState(() {
       journal = Journal(entries: journalEntries);
+      entryDetails = journal.entries[0];
     });
   }
 
@@ -54,9 +59,19 @@ class _AllJournalEntriesState extends State<AllJournalEntries> {
     } else {
       return JournalScaffold(
           title: journal.isEmpty ? "Welcome" : "Journal Entries",
-          child: journal.isEmpty ? const Welcome() : journalList(context));
+          child: journal.isEmpty
+              ? const Welcome()
+              : LayoutBuilder(builder: journalViews));
     }
   }
+
+  Widget journalViews(BuildContext context, BoxConstraints constraints) =>
+      constraints.maxWidth < 800
+          ? VerticalLayout(journal: journalList(context))
+          : HorizontalLayout(
+              journal: journalList(context),
+              entryDetails: entryDetails,
+            );
 
   Widget journalList(BuildContext context) {
     return ListView.builder(
@@ -65,7 +80,41 @@ class _AllJournalEntriesState extends State<AllJournalEntries> {
           return ListTile(
               title: Text(journal.entries[index].title),
               subtitle: Text(journal.entries[index].date),
-              onTap: () => Navigator.of(context).pushNamed("/"));
+              onTap: () => setState(() {
+                    entryDetails = journal.entries[index];
+                  }));
         });
+  }
+}
+
+class VerticalLayout extends StatelessWidget {
+  final Widget journal;
+
+  const VerticalLayout({Key? key, required this.journal}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(child: journal);
+  }
+}
+
+class HorizontalLayout extends StatelessWidget {
+  final Widget journal;
+  final JournalEntry entryDetails;
+
+  const HorizontalLayout(
+      {Key? key, required this.journal, required this.entryDetails})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Expanded(child: Container(child: journal)),
+        Expanded(
+            child: Container(child: JournalEntryDetails(entry: entryDetails)))
+      ],
+    );
   }
 }
