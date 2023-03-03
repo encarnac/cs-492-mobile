@@ -3,8 +3,6 @@ import 'journal_drawer.dart';
 import '../screens/new_journal_entry.dart';
 
 class JournalScaffold extends StatefulWidget {
-  static const routeName = "/";
-
   final String title;
   final Widget child;
 
@@ -18,6 +16,15 @@ class JournalScaffold extends StatefulWidget {
 class _JournalScaffoldState extends State<JournalScaffold> {
   @override
   Widget build(BuildContext context) {
+    final floatingActionButton = widget.title == "New Journal Entry"
+        ? null
+        : FloatingActionButton(
+            child: const Icon(Icons.add, size: 35.0),
+            onPressed: () {
+              navToNewJournalEntry(context);
+            },
+          );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -31,12 +38,7 @@ class _JournalScaffoldState extends State<JournalScaffold> {
         ],
       ),
       endDrawer: const JournalDrawer(),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add, size: 35.0),
-        onPressed: () {
-          navToNewJournalEntry(context);
-        },
-      ),
+      floatingActionButton: floatingActionButton,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: widget.child,
     );

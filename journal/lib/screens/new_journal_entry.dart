@@ -10,7 +10,7 @@ class NewJournalEntry extends StatelessWidget {
   Widget build(BuildContext context) {
     return const JournalScaffold(
       title: "New Journal Entry",
-      child: Center(child: Text("NEW")),
+      child: Center(child: Text("FORM HERE")),
     );
   }
 }
