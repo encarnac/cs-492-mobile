@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/journal_scaffold.dart';
+import '../widgets/journal_entry_form.dart';
 
 class NewJournalEntry extends StatelessWidget {
   static const routeName = "new_journal_entry";
@@ -8,9 +9,9 @@ class NewJournalEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const JournalScaffold(
+    return JournalScaffold(
       title: "New Journal Entry",
-      child: Center(child: Text("FORM HERE")),
+      child: JournalEntryForm(),
     );
   }
 }

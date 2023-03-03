@@ -31,8 +31,12 @@ class AppState extends State<App> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        brightness: darkMode ? Brightness.dark : Brightness.light,
-      ),
+          brightness: darkMode ? Brightness.dark : Brightness.light,
+          buttonTheme: const ButtonThemeData(
+            buttonColor: Colors.teal, //  <-- light color
+            textTheme:
+                ButtonTextTheme.primary, //  <-- dark text for light background
+          )),
       // home: const JournalScaffold(),
       routes: routes,
     );
