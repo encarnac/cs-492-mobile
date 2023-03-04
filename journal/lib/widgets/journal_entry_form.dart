@@ -18,24 +18,22 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 7),
-              titleField(),
-              const SizedBox(height: 10),
-              bodyField(),
-              const SizedBox(height: 10),
-              ratingField(),
-              const SizedBox(height: 10),
-              formButtons(),
-            ],
-          ),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(height: 7),
+            titleField(),
+            const SizedBox(height: 10),
+            bodyField(),
+            const SizedBox(height: 10),
+            ratingField(),
+            const SizedBox(height: 10),
+            formButtons(),
+          ],
         ),
       ),
     );

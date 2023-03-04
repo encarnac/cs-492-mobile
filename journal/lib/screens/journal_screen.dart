@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../models/journal.dart';
 import '../models/journal_entry.dart';
-import '../widgets/journal_entry_details.dart';
+import '../layouts/horizontal_layout.dart';
+import '../layouts/vertical_layout.dart';
 import '../widgets/journal_scaffold.dart';
 import '../widgets/welcome.dart';
 import '../app.dart';
-import 'details_screen.dart';
 
 class JournalScreen extends StatefulWidget {
   static const routeName = "/";
@@ -83,94 +83,4 @@ class _JournalScreenState extends State<JournalScreen> {
               currentEntry: currentEntry,
               updateEntryView: updateEntryView,
             );
-
-  Widget journalList(BuildContext context) {
-    return ListView.builder(
-        itemCount: journal.entries.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-              title: Text(journal.entries[index].title),
-              subtitle: Text(journal.entries[index].date),
-              onTap: () => setState(() {
-                    currentEntry = journal.entries[index];
-                  }));
-        });
-  }
-}
-
-class VerticalLayout extends StatelessWidget {
-  final Journal journal;
-  final JournalEntry currentEntry;
-  final void Function(JournalEntry entry) updateEntryView;
-
-  const VerticalLayout({
-    Key? key,
-    required this.journal,
-    required this.currentEntry,
-    required this.updateEntryView,
-  }) : super(key: key);
-
-  Widget journalList(BuildContext context) {
-    return ListView.builder(
-        itemCount: journal.entries.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(journal.entries[index].title),
-            subtitle: Text(journal.entries[index].date),
-            onTap: () {
-              updateEntryView(journal.entries[index]);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      DetailsScreen(journalEntry: journal.entries[index]),
-                ),
-              );
-            },
-          );
-        });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(child: journalList(context));
-  }
-}
-
-class HorizontalLayout extends StatelessWidget {
-  final Journal journal;
-  final JournalEntry currentEntry;
-  final void Function(JournalEntry entry) updateEntryView;
-
-  const HorizontalLayout({
-    Key? key,
-    required this.journal,
-    required this.currentEntry,
-    required this.updateEntryView,
-  }) : super(key: key);
-
-  Widget journalList(BuildContext context) {
-    return ListView.builder(
-        itemCount: journal.entries.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(journal.entries[index].title),
-            subtitle: Text(journal.entries[index].date),
-            onTap: () => updateEntryView(journal.entries[index]),
-          );
-        });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(child: Container(child: journalList(context))),
-        Expanded(
-          child: JournalEntryDetails(entry: currentEntry),
-        ),
-      ],
-    );
-  }
 }

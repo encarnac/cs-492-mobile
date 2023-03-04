@@ -39,7 +39,8 @@ class _JournalScaffoldState extends State<JournalScaffold> {
       ),
       endDrawer: const JournalDrawer(),
       floatingActionButton: floatingActionButton,
-      body: widget.child,
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      body: SafeArea(child: widget.child),
     );
   }
 

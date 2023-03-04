@@ -15,8 +15,10 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Use the Todo to create the UI.
     return JournalScaffold(
-      title: "New Journal Entry",
-      child: JournalEntryDetails(entry: journalEntry),
+      title: journalEntry.date,
+      child: Container(
+          padding: EdgeInsets.all(20.0),
+          child: JournalEntryDetails(entry: journalEntry)),
     );
   }
 }
