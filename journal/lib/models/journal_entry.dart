@@ -4,7 +4,6 @@ class JournalEntry {
   final String body;
   final int rating;
   final String date;
-  // late date =
 
   JournalEntry({
     this.id = 0,

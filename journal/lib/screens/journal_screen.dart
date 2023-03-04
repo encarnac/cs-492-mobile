@@ -6,7 +6,6 @@ import '../layouts/horizontal_layout.dart';
 import '../layouts/vertical_layout.dart';
 import '../widgets/journal_scaffold.dart';
 import '../widgets/welcome.dart';
-import '../app.dart';
 
 class JournalScreen extends StatefulWidget {
   static const routeName = "/";

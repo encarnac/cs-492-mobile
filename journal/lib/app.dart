@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/new_entry_screen.dart';
 import 'screens/journal_screen.dart';
-import 'screens/details_screen.dart';
 import 'db/database_manager.dart';
 
 class App extends StatefulWidget {
