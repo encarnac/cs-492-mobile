@@ -11,7 +11,10 @@ dependencies:
     sdk: flutter
   shared_preferences: ^2.0.18
   intl: ^0.18.0
-  
+  sqflite: ^2.2.5
+  path: ^1.8.2
+  path_provider: ^2.0.13
+
 
 dev_dependencies:
   flutter_test:
@@ -20,3 +23,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - lib/assets/schema_1.sql.txt
+    - lib/assets/schema_2.sql.txt
+    - lib/assets/schema_3.sql.txt

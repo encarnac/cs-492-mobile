@@ -3,7 +3,7 @@ import 'journal_entry.dart';
 class Journal {
   List<JournalEntry> entries;
 
-  Journal({required this.entries});
+  Journal({this.entries = const []});
 
   bool get isEmpty => entries.isEmpty;
 }

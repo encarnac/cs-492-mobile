@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../db/journal_entry_dto.dart';
+import '../db/database_manager.dart';
+import '../screens/journal_screen.dart';
 import 'dropdown_rating_form_field.dart';
 
 class JournalEntryForm extends StatefulWidget {
@@ -14,7 +16,7 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
   final formKey = GlobalKey<FormState>();
 
   // Used as a bucket to collect the title, body, date, rating.
-  final journalEntryFields = JournalEntryFields();
+  final journalEntryValues = JournalEntryValues();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
             TextStyle(color: Theme.of(context).colorScheme.secondary),
       ),
       onSaved: (value) {
-        journalEntryFields.title = value.toString();
+        journalEntryValues.title = value.toString();
       },
       validator: (value) {
         if (value!.isEmpty) {
@@ -77,7 +79,7 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
             TextStyle(color: Theme.of(context).colorScheme.secondary),
       ),
       onSaved: (value) {
-        journalEntryFields.body = value.toString();
+        journalEntryValues.body = value.toString();
       },
       validator: (value) {
         if (value!.isEmpty) {
@@ -93,7 +95,7 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
     return DropdownRatingFormField(
       maxRating: 4,
       onSaved: (value) {
-        journalEntryFields.rating = value;
+        journalEntryValues.rating = value;
       },
       validator: (value) {
         if (value == null) {
@@ -125,11 +127,13 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
             // validate() calls each field's validator method and returns false if any fail
             if (formKey.currentState!.validate()) {
               String date = DateFormat.yMMMMEEEEd().format(DateTime.now());
-              journalEntryFields.date = date;
+              journalEntryValues.date = date;
               formKey.currentState?.save();
+              final databaseManager = DatabaseManager.getInstance();
+              databaseManager.saveJournalEntry(dto: journalEntryValues);
               // Complete save by transferring to database for data persistence
-              print(journalEntryFields.toString());
-              Navigator.of(context).pop();
+              print(journalEntryValues.toString());
+              Navigator.of(context).pushNamed(JournalScreen.routeName);
             }
           },
           style: ElevatedButton.styleFrom(

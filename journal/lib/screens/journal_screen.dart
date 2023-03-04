@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../db/database_manager.dart';
 import '../models/journal.dart';
 import '../models/journal_entry.dart';
 import '../layouts/horizontal_layout.dart';
@@ -23,8 +24,8 @@ class _JournalScreenState extends State<JournalScreen> {
   @override
   void initState() {
     super.initState;
-    currentEntry =
-        JournalEntry(id: 0, title: "", body: "", rating: 0, date: "");
+    journal = Journal();
+    currentEntry = JournalEntry();
     loadJournal();
   }
 
@@ -35,30 +36,19 @@ class _JournalScreenState extends State<JournalScreen> {
   }
 
   void loadJournal() async {
-    // Replace with database GET
-    AppState? appState = context.findAncestorStateOfType<AppState>();
-    // Holds entries retrieved for database
-    List<Map> databaseEntries = appState!.fakeData;
-    // Creates JournalEntry for each database row and collects into list
-    final journalEntries = databaseEntries.map((entry) {
-      return JournalEntry(
-        id: entry["id"],
-        title: entry["title"],
-        body: entry["body"],
-        rating: entry["rating"],
-        date: entry["date"],
-      );
-    }).toList();
-    // Assigns list of JournalEntry to create Journal object
+    var databaseManager = DatabaseManager.getInstance();
+    List<JournalEntry> journalEntries = await databaseManager.journalEntries();
     setState(() {
       journal = Journal(entries: journalEntries);
-      updateEntryView(journal.entries[0]);
+      if (!journal.isEmpty) {
+        updateEntryView(journal.entries[0]);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (journal == null) {
+    if (journal.entries == []) {
       return const JournalScaffold(
         title: "Loading",
         child: Center(child: CircularProgressIndicator()),

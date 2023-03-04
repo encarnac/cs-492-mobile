@@ -1,4 +1,4 @@
-class JournalEntryFields {
+class JournalEntryValues {
   // Intermediate data transfer object (DTO)
   late String title;
   late String body;

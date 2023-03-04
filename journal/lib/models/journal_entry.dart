@@ -7,10 +7,10 @@ class JournalEntry {
   // late date =
 
   JournalEntry({
-    required this.id,
-    required this.title,
-    required this.body,
-    required this.rating,
-    required this.date,
+    this.id = 0,
+    this.title = '',
+    this.body = '',
+    this.rating = 0,
+    this.date = '',
   });
 }
