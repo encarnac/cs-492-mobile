@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'journal_drawer.dart';
-import '../screens/new_journal_entry.dart';
+import '../screens/new_entry_screen.dart';
 
 class JournalScaffold extends StatefulWidget {
   final String title;
@@ -44,6 +44,6 @@ class _JournalScaffoldState extends State<JournalScaffold> {
   }
 
   void navToNewJournalEntry(BuildContext context) {
-    Navigator.of(context).pushNamed(NewJournalEntry.routeName);
+    Navigator.of(context).pushNamed(NewEntryScreen.routeName);
   }
 }

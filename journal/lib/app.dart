@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'screens/new_journal_entry.dart';
-import 'screens/all_journal_entries.dart';
+import 'screens/new_entry_screen.dart';
+import 'screens/journal_screen.dart';
 import 'package:intl/intl.dart';
 
 class App extends StatefulWidget {
@@ -118,8 +118,8 @@ class AppState extends State<App> {
       ];
 
   static final routes = {
-    AllJournalEntries.routeName: (context) => const AllJournalEntries(),
-    NewJournalEntry.routeName: (context) => const NewJournalEntry(),
+    JournalScreen.routeName: (context) => const JournalScreen(),
+    NewEntryScreen.routeName: (context) => const NewEntryScreen(),
   };
 
   bool get darkMode => widget.preferences.getBool("darkMode") ?? false;
