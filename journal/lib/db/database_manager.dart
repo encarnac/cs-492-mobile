@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import '../models/journal_entry.dart';
 import 'journal_entry_dto.dart';
@@ -55,8 +54,7 @@ class DatabaseManager {
 
   Future<List<JournalEntry>> journalEntries() async {
     String getQuery = await rootBundle.loadString(GET_SQL);
-    final List<Map> dbEntry =
-        await db!.rawQuery("SELECT * FROM journal_entries;");
+    final List<Map> dbEntry = await db!.rawQuery(getQuery);
     return List.generate(dbEntry.length, (i) {
       return JournalEntry(
         id: dbEntry[i]["id"],

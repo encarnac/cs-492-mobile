@@ -22,7 +22,7 @@ class JournalEntryDetails extends StatelessWidget {
             Text(entry.date, style: Theme.of(context).textTheme.titleMedium),
             Text("Rating: ${entry.rating.toString()}/4",
                 style: Theme.of(context).textTheme.titleMedium),
-            Divider(),
+            const Divider(),
             Text(entry.body),
           ],
         ),

@@ -131,9 +131,12 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
               formKey.currentState?.save();
               final databaseManager = DatabaseManager.getInstance();
               databaseManager.saveJournalEntry(dto: journalEntryValues);
-              // Complete save by transferring to database for data persistence
               print(journalEntryValues.toString());
-              Navigator.of(context).pushNamed(JournalScreen.routeName);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const JournalScreen()),
+                (Route<dynamic> route) => false,
+              );
             }
           },
           style: ElevatedButton.styleFrom(
