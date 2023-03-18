@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/new_entry_screen.dart';
+import 'screens/posts_list_screen.dart';
+import 'screens/new_photo_screen.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -10,7 +11,8 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   static final routes = {
-    NewEntryScreen.routeName: (context) => const NewEntryScreen(),
+    PostsListScreen.routeName: (context) => const PostsListScreen(),
+    NewPhotoScreen.routeName: (context) => const NewPhotoScreen(),
   };
 
   @override

@@ -4,18 +4,25 @@ import 'package:image_picker/image_picker.dart';
 import '../layouts/app_scaffold.dart';
 import '../widgets/new_entry_form.dart';
 
-class NewEntryScreen extends StatefulWidget {
-  static const routeName = "/";
+class NewPhotoScreen extends StatefulWidget {
+  static const routeName = "new-entry";
 
-  const NewEntryScreen({super.key});
+  const NewPhotoScreen({super.key});
 
   @override
-  State<NewEntryScreen> createState() => _NewEntryScreenState();
+  State<NewPhotoScreen> createState() => _NewPhotoScreenState();
 }
 
-class _NewEntryScreenState extends State<NewEntryScreen> {
+class _NewPhotoScreenState extends State<NewPhotoScreen> {
   final picker = ImagePicker();
   File? image;
+
+  @override
+  void initState() {
+    super.initState();
+    getImage();
+    setState(() {});
+  }
 
   void getImage() async {
     final XFile? pickedFile =
@@ -28,20 +35,14 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: "New Entry",
+      buttonState: false,
       child: newEntryLayout(),
     );
   }
 
   Widget newEntryLayout() {
     if (image == null) {
-      return Center(
-        child: ElevatedButton(
-          child: const Text("Select Photo"),
-          onPressed: () {
-            getImage();
-          },
-        ),
-      );
+      return const Center(child: CircularProgressIndicator());
     } else {
       return NewEntryForm(image: image);
     }
