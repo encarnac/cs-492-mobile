@@ -1,7 +1,6 @@
-
-import 'dart:io';
 import 'package:flutter/material.dart';
 import '../layouts/app_scaffold.dart';
+import 'new_photo_screen.dart';
 
 class PostsListScreen extends StatefulWidget {
   static const routeName = "/";
@@ -13,9 +12,16 @@ class PostsListScreen extends StatefulWidget {
 }
 
 class _PostsListScreenState extends State<PostsListScreen> {
+  List<Map>? data;
+
   @override
   Widget build(BuildContext context) {
-    return const AppScaffold(
-        title: "Wasteagram", buttonState: true, child: Text(""));
+    return AppScaffold(
+        title: "Wasteagram",
+        button: FloatingActionButton.large(
+            onPressed: () =>
+                Navigator.of(context).pushNamed(NewPhotoScreen.routeName),
+            child: const Icon(Icons.add_a_photo)),
+        body: const CircularProgressIndicator());
   }
 }
