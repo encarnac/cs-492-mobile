@@ -7,16 +7,16 @@ import 'package:geolocator/geolocator.dart';
 import '../layouts/app_scaffold.dart';
 import '../models/new_entry_dto.dart';
 
-class NewPhotoScreen extends StatefulWidget {
+class NewPostScreen extends StatefulWidget {
   static const routeName = "new-entry";
 
-  const NewPhotoScreen({super.key});
+  const NewPostScreen({super.key});
 
   @override
-  State<NewPhotoScreen> createState() => _NewPhotoScreenState();
+  State<NewPostScreen> createState() => _NewPostScreenState();
 }
 
-class _NewPhotoScreenState extends State<NewPhotoScreen> {
+class _NewPostScreenState extends State<NewPostScreen> {
   final formKey = GlobalKey<FormState>();
   final newEntryValues = NewEntryValues();
   final picker = ImagePicker();
@@ -28,14 +28,22 @@ class _NewPhotoScreenState extends State<NewPhotoScreen> {
   void initState() {
     super.initState();
     getImage();
-    setState(() {});
+    // setState(() {});
   }
 
   void getImage() async {
     final XFile? pickedFile =
         await picker.pickImage(source: ImageSource.gallery);
-    image = File(pickedFile!.path);
-    setState(() {});
+    if (pickedFile != null) {
+      image = File(pickedFile.path);
+      setState(() {});
+    } else {
+      cancelNewPost();
+    }
+  }
+
+  void cancelNewPost() {
+    Navigator.pushNamed(context, '/');
   }
 
   void getLocation() async {
@@ -71,7 +79,7 @@ class _NewPhotoScreenState extends State<NewPhotoScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: "New Entry",
+      title: "New Post",
       body: newEntryForm(),
       button: postButton(),
     );
@@ -95,9 +103,9 @@ class _NewPhotoScreenState extends State<NewPhotoScreen> {
               Image.file(
                 image!,
                 width: getMaxWidthOf(context),
-                height: MediaQuery.of(context).size.width * .9,
+                height: MediaQuery.of(context).size.width * .85,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
               itemCountField(),
             ],
           ),
@@ -108,7 +116,6 @@ class _NewPhotoScreenState extends State<NewPhotoScreen> {
 
   Widget itemCountField() {
     return TextFormField(
-      initialValue: "0",
       textAlign: TextAlign.center,
       decoration: InputDecoration(
         labelText: "Number of Wasted Items",
@@ -120,7 +127,7 @@ class _NewPhotoScreenState extends State<NewPhotoScreen> {
             TextStyle(color: Theme.of(context).colorScheme.secondary),
       ),
       keyboardType: TextInputType.number,
-      // inputFormatters: [TextInputFormatter.digitsOnly],
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       onSaved: (value) {
         newEntryValues.itemCount = int.parse(value!);
       },
