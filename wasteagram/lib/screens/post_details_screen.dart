@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import '../widgets/app_scaffold.dart';
 import '../models/post.dart';
 
@@ -29,7 +27,11 @@ class PostDetailsScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Text(post.date, style: Theme.of(context).textTheme.headlineSmall),
-          Image.network(post.imageURL),
+          Image.network(
+            post.imageURL,
+            // width: MediaQuery.of(context).size.width * .9,
+            height: MediaQuery.of(context).size.height * .5,
+          ),
           Text("${post.quantity.toString()} items",
               style: Theme.of(context).textTheme.headlineSmall),
           Text("Location(${post.latitude}, ${post.longitude})")

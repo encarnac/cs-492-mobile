@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wasteagram/screens/posts_list_screen.dart';
 import '../widgets/app_scaffold.dart';
-import '../models/new_entry_dto.dart';
+import '../models/post.dart';
 
 class NewPostScreen extends StatefulWidget {
   static const routeName = "new-entry";
@@ -19,16 +21,18 @@ class NewPostScreen extends StatefulWidget {
 
 class _NewPostScreenState extends State<NewPostScreen> {
   final formKey = GlobalKey<FormState>();
-  final newEntryValues = NewEntryValues();
+  var newEntryValues = Post();
   final picker = ImagePicker();
 
   File? image;
   Position? locationData;
+  String? url;
 
   @override
   void initState() {
     super.initState();
     getImage();
+    getLocation();
     // setState(() {});
   }
 
@@ -41,6 +45,15 @@ class _NewPostScreenState extends State<NewPostScreen> {
     } else {
       cancelNewPost();
     }
+  }
+
+  Future getImageUrl() async {
+    var fileName = '${DateTime.now()}.jpg';
+    Reference storageReference = FirebaseStorage.instance.ref().child(fileName);
+    UploadTask uploadTask = storageReference.putFile(image!);
+    await uploadTask;
+    url = await storageReference.getDownloadURL();
+    // print(url);
   }
 
   void cancelNewPost() {
@@ -58,7 +71,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     });
   }
 
-  Future<Position> _getLocation() async {
+  Future _getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -153,22 +166,32 @@ class _NewPostScreenState extends State<NewPostScreen> {
       child: FloatingActionButton.extended(
           shape: const RoundedRectangleBorder(),
           onPressed: () {
-            // Validate() calls each field's validator method and returns false if any fail
-            if (formKey.currentState!.validate()) {
-              String date = DateFormat.yMMMMEEEEd().format(DateTime.now());
-              newEntryValues.date = date;
-              if (locationData != null) {
-                newEntryValues.longitude = locationData!.latitude;
-                newEntryValues.longitude = locationData!.longitude;
-                print(locationData!.latitude);
-                print(locationData!.longitude);
-              }
-              formKey.currentState?.save();
-              Navigator.of(context).pop();
-            }
+            savePost();
+            Navigator.of(context).pop();
           },
           label: const Icon(Icons.backup, size: 100.0)),
     );
+  }
+
+  void savePost() async {
+    // Validate() calls each field's validator method and returns false if any fail
+    if (formKey.currentState!.validate()) {
+      String date = DateFormat.yMMMMEEEEd().format(DateTime.now());
+      newEntryValues.date = date;
+      if (locationData != null) {
+        newEntryValues.latitude = locationData!.latitude;
+        newEntryValues.longitude = locationData!.longitude;
+      }
+      formKey.currentState?.save();
+
+      await getImageUrl();
+      newEntryValues.imageURL = url!;
+      // formKey.currentState?.save();
+      print(newEntryValues.toString());
+      FirebaseFirestore.instance
+          .collection('posts')
+          .add(newEntryValues.savePost());
+    }
   }
 
   double getMaxWidthOf(context) {

@@ -16,8 +16,6 @@ class PostsListScreen extends StatefulWidget {
 }
 
 class _PostsListScreenState extends State<PostsListScreen> {
-  // List<Post>? posts;
-
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
