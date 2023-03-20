@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
-import '../layouts/app_scaffold.dart';
+import 'package:wasteagram/screens/posts_list_screen.dart';
+import '../widgets/app_scaffold.dart';
 import '../models/new_entry_dto.dart';
 
 class NewPostScreen extends StatefulWidget {
@@ -43,7 +44,11 @@ class _NewPostScreenState extends State<NewPostScreen> {
   }
 
   void cancelNewPost() {
-    Navigator.pushNamed(context, '/');
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const PostsListScreen()),
+      (Route<dynamic> route) => false,
+    );
   }
 
   void getLocation() async {
@@ -106,7 +111,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 height: MediaQuery.of(context).size.width * .85,
               ),
               const SizedBox(height: 5),
-              itemCountField(),
+              quantityField(),
             ],
           ),
         ),
@@ -114,7 +119,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     }
   }
 
-  Widget itemCountField() {
+  Widget quantityField() {
     return TextFormField(
       textAlign: TextAlign.center,
       decoration: InputDecoration(
@@ -129,7 +134,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       onSaved: (value) {
-        newEntryValues.itemCount = int.parse(value!);
+        newEntryValues.quantity = int.parse(value!);
       },
       validator: (value) {
         if (value!.isEmpty) {
