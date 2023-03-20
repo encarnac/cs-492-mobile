@@ -6,7 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wasteagram/screens/posts_list_screen.dart';
 import '../widgets/app_scaffold.dart';
-import '../models/new_entry_dto.dart';
+// import '../models/new_entry_dto.dart';
+import '../models/post.dart';
 
 class NewPostScreen extends StatefulWidget {
   static const routeName = "new-entry";
@@ -19,7 +20,7 @@ class NewPostScreen extends StatefulWidget {
 
 class _NewPostScreenState extends State<NewPostScreen> {
   final formKey = GlobalKey<FormState>();
-  final newEntryValues = NewEntryValues();
+  final newEntryValues = Post();
   final picker = ImagePicker();
 
   File? image;

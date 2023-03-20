@@ -4,6 +4,37 @@ import '../widgets/app_scaffold.dart';
 import 'new_post_screen.dart';
 import 'post_details_screen.dart';
 
+const allPosts = [
+  {
+    "date": "Saturday, March 18, 2023",
+    "imageURL": "https://picsum.photos/250?image=9",
+    "quantity": 4,
+    "latitude": 37.111111,
+    "longitude": -122.406417
+  },
+  {
+    "date": "Saturday, March 18, 2023",
+    "imageURL": "https://picsum.photos/250?image=9",
+    "quantity": 4,
+    "latitude": 37.111111,
+    "longitude": -122.406417
+  },
+  {
+    "date": "Saturday, March 18, 2023",
+    "imageURL": "https://picsum.photos/250?image=9",
+    "quantity": 4,
+    "latitude": 37.111111,
+    "longitude": -122.406417
+  },
+  {
+    "date": "Saturday, March 18, 2023",
+    "imageURL": "https://picsum.photos/250?image=9",
+    "quantity": 4,
+    "latitude": 37.111111,
+    "longitude": -122.406417
+  },
+];
+
 class PostsListScreen extends StatefulWidget {
   static const routeName = "/";
 
@@ -15,6 +46,23 @@ class PostsListScreen extends StatefulWidget {
 
 class _PostsListScreenState extends State<PostsListScreen> {
   List<Post>? posts;
+
+  void initState() {
+    super.initState;
+    posts = getData();
+    setState(() {});
+  }
+
+  List<Post> getData() {
+    return List.generate(allPosts.length, (i) {
+      return Post(
+          date: "Saturday, March 18, 2023",
+          imageURL: "https://picsum.photos/250?image=9",
+          quantity: 4,
+          latitude: 37.111111,
+          longitude: -122.406417);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +83,9 @@ class _PostsListScreenState extends State<PostsListScreen> {
           itemCount: posts.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(posts[index].title),
-              subtitle: Text(posts[index].date),
+              title: Text(posts[index].date),
+              trailing: Text(posts[index].quantity.toString(),
+                  style: Theme.of(context).textTheme.titleLarge),
               onTap: () {
                 // updateEntryView(posts[index]);
                 Navigator.push(

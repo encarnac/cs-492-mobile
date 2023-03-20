@@ -19,13 +19,12 @@ class PostDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        title: post!.date,
+        title: "Wasteagram",
         body: postDetails(context, post!),
         button: const SizedBox(width: 0.0));
   }
 
   Widget postDetails(BuildContext context, Post post) {
-    File image = File(post.imageURL);
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: getHeightOf(context),
@@ -35,11 +34,10 @@ class PostDetailsScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Image.file(image),
-          const SizedBox(height: 5),
-          Text(post.quantity.toString(),
-              style: Theme.of(context).textTheme.headlineMedium),
-          const SizedBox(height: 15),
+          Text(post.date, style: Theme.of(context).textTheme.headlineMedium),
+          Image.network(post.imageURL),
+          Text("${post.quantity.toString()} items",
+              style: Theme.of(context).textTheme.headlineSmall),
           Text("Location(${post.latitude}, ${post.longitude})")
         ],
       ),

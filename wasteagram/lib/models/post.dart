@@ -1,9 +1,9 @@
 class Post {
-  final String date;
-  final String imageURL;
-  final int quantity;
-  final double latitude;
-  final double longitude;
+  late String date;
+  late String imageURL;
+  late int quantity;
+  late double latitude;
+  late double longitude;
 
   Post({
     this.date = '',
@@ -12,4 +12,9 @@ class Post {
     this.latitude = 0,
     this.longitude = 0,
   });
+
+  @override
+  String toString() {
+    return "Date: $date, Image URL: $imageURL, Quantity: $quantity, Latitude: $latitude, Longitude: $longitude";
+  }
 }
