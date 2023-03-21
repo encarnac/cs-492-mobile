@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:wasteagram/screens/posts_list_screen.dart';
 import '../widgets/app_scaffold.dart';
 import '../models/post.dart';
 
@@ -51,7 +50,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       image = File(pickedFile.path);
       setState(() {});
     } else {
-      cancelNewPost();
+      Navigator.of(context).pop();
     }
   }
 
@@ -61,14 +60,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
     UploadTask uploadTask = storageReference.putFile(image!);
     var url = await (await uploadTask).ref.getDownloadURL();
     imageURL = url;
-  }
-
-  void cancelNewPost() {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const PostsListScreen()),
-      (Route<dynamic> route) => false,
-    );
   }
 
   void getLocation() async {
@@ -179,9 +170,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
                   .collection('posts')
                   .add(newEntryValues.savePost());
             }
-          }
-          if (context.mounted) {
-            Navigator.of(context).pop();
+            if (context.mounted) {
+              Navigator.of(context).pop();
+            }
           }
         },
         label: buttonIcon(),
