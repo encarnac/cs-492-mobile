@@ -21,21 +21,18 @@ class PostDetailsScreen extends StatelessWidget {
   Widget postDetails(BuildContext context, Post post) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: getHeightOf(context),
-        horizontal: getWidthOf(context),
+        vertical: MediaQuery.of(context).size.width * .04,
+        horizontal: MediaQuery.of(context).size.height * .04,
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.max,
         children: [
           Text(DateFormat.yMMMMEEEEd().format(post.date!.toDate()),
               style: Theme.of(context).textTheme.headlineSmall),
-          // String date = DateFormat.yMMMMEEEEd().format(DateTime.now());
-
           FadeInImage.memoryNetwork(
             placeholder: kTransparentImage,
             image: post.imageURL!,
-            // width: MediaQuery.of(context).size.width * .9,
             height: MediaQuery.of(context).size.height * .5,
           ),
           Text("${post.quantity.toString()} items",
@@ -44,13 +41,5 @@ class PostDetailsScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  double getWidthOf(context) {
-    return MediaQuery.of(context).size.width * .04;
-  }
-
-  double getHeightOf(context) {
-    return MediaQuery.of(context).size.height * .04;
   }
 }

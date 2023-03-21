@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import '../models/post.dart';
 import '../widgets/app_scaffold.dart';
-// import '../widgets/wasteagram_title.dart';
 import 'new_post_screen.dart';
 import 'post_details_screen.dart';
 
