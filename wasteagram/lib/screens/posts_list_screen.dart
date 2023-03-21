@@ -25,8 +25,9 @@ class _PostsListScreenState extends State<PostsListScreen> {
         body: postsList(context));
   }
 
-  /// Displays widget for the AppBar title containing total waste count from Firebase stream
+  /// Displays widget for the AppBar title containing total waste count
   Widget wasteagramTitle(BuildContext context) {
+    /// Total quantity displayed in title
     String? totalWaste;
     return StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -35,6 +36,7 @@ class _PostsListScreenState extends State<PostsListScreen> {
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+            // Calculate total number of waste from data in stream
             num total = 0;
             snapshot.data!.docs.forEach((doc) {
               total += doc['quantity'];
@@ -42,12 +44,13 @@ class _PostsListScreenState extends State<PostsListScreen> {
             totalWaste = total.toString();
             return Text("Wasteagram - ${totalWaste!}");
           } else {
+            // Displays title without calculation when no posts
             return const Text("Wasteagram");
           }
         });
   }
 
-  /// Displays each document from Firebase stream as a tile containing the date and quantity
+  /// Displays each document from Firebase stream as a list tile
   Widget postsList(BuildContext context) {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -60,6 +63,8 @@ class _PostsListScreenState extends State<PostsListScreen> {
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 final postData = snapshot.data!.docs[index];
+
+                /// Creates a Post object from document in Firebase
                 final post = Post(
                   date: postData["date"],
                   imageURL: postData["imageURL"],
@@ -67,6 +72,7 @@ class _PostsListScreenState extends State<PostsListScreen> {
                   latitude: postData["latitude"],
                   longitude: postData["longitude"],
                 );
+                // Displays a tile of the Post date and quantity
                 return Semantics(
                   button: true,
                   link: true,
@@ -80,6 +86,7 @@ class _PostsListScreenState extends State<PostsListScreen> {
                     trailing: Text(post.quantity.toString(),
                         style: Theme.of(context).textTheme.titleLarge),
                     onTap: () {
+                      /// Redirects to the details screen of selected Post
                       Navigator.push(
                         context,
                         MaterialPageRoute(

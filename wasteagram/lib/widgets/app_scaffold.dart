@@ -9,6 +9,7 @@ class AppScaffold extends StatelessWidget {
       {Key? key, required this.title, required this.body, this.button})
       : super(key: key);
 
+  /// Displays reusable scaffold shared between different screens
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
