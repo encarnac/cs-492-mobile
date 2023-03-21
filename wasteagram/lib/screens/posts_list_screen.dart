@@ -68,8 +68,8 @@ class _PostsListScreenState extends State<PostsListScreen> {
                   longitude: postData["longitude"],
                 );
                 return ListTile(
-                  title:
-                      Text(DateFormat.yMMMMEEEEd().format(post.date!.toDate())),
+                  title: Text(DateFormat.yMMMEd().format(post.date!.toDate()),
+                      style: Theme.of(context).textTheme.titleMedium),
                   trailing: Text(post.quantity.toString(),
                       style: Theme.of(context).textTheme.titleLarge),
                   onTap: () {
