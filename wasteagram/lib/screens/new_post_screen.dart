@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wasteagram/screens/posts_list_screen.dart';
@@ -34,7 +33,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
     uploading = false;
     getImage();
     getLocation();
-    // setState(() {});
   }
 
   @override
@@ -167,8 +165,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         onPressed: () async {
           // Validate() calls each field's validator method and returns false if any fail
           if (formKey.currentState!.validate()) {
-            String date = DateFormat.yMMMMEEEEd().format(DateTime.now());
-            newEntryValues.date = date;
+            newEntryValues.date = Timestamp.now();
             newEntryValues.latitude = locationData!.latitude;
             newEntryValues.longitude = locationData!.longitude;
             setState(() {

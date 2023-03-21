@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:intl/intl.dart';
 import '../models/post.dart';
 import '../widgets/app_scaffold.dart';
 import 'new_post_screen.dart';
@@ -29,7 +30,10 @@ class _PostsListScreenState extends State<PostsListScreen> {
 
   Widget postsList(BuildContext context) {
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection("posts")
+            .orderBy("date", descending: true)
+            .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -44,7 +48,8 @@ class _PostsListScreenState extends State<PostsListScreen> {
                   longitude: postData["longitude"],
                 );
                 return ListTile(
-                  title: Text(post.date),
+                  title:
+                      Text(DateFormat.yMMMMEEEEd().format(post.date!.toDate())),
                   trailing: Text(post.quantity.toString(),
                       style: Theme.of(context).textTheme.titleLarge),
                   onTap: () {

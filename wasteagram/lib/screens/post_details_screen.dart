@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:intl/intl.dart';
 import '../widgets/app_scaffold.dart';
 import '../models/post.dart';
 
@@ -27,7 +28,10 @@ class PostDetailsScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Text(post.date, style: Theme.of(context).textTheme.headlineSmall),
+          Text(DateFormat.yMMMMEEEEd().format(post.date!.toDate()),
+              style: Theme.of(context).textTheme.headlineSmall),
+          // String date = DateFormat.yMMMMEEEEd().format(DateTime.now());
+
           FadeInImage.memoryNetwork(
             placeholder: kTransparentImage,
             image: post.imageURL!,
