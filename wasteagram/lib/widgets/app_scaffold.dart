@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppScaffold extends StatelessWidget {
-  final String title;
+  final Widget title;
   final Widget body;
   final Widget? button;
 
@@ -14,7 +14,7 @@ class AppScaffold extends StatelessWidget {
     return GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          appBar: AppBar(title: Text(title)),
+          appBar: AppBar(title: title),
           body: Center(child: body),
           floatingActionButton: button,
           resizeToAvoidBottomInset: false,

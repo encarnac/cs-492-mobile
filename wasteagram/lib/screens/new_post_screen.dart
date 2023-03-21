@@ -37,7 +37,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: "New Post",
+      title: const Text("New Post"),
       body: newEntryForm(),
       button: postButton(),
     );

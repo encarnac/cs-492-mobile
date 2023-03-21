@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import '../models/post.dart';
 import '../widgets/app_scaffold.dart';
+// import '../widgets/wasteagram_title.dart';
 import 'new_post_screen.dart';
 import 'post_details_screen.dart';
 
@@ -19,12 +20,33 @@ class _PostsListScreenState extends State<PostsListScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        title: "Wasteagram",
+        title: wasteagramTitle(context),
         button: FloatingActionButton(
             onPressed: () =>
                 Navigator.of(context).pushNamed(NewPostScreen.routeName),
             child: const Icon(Icons.photo_camera, size: 35.0)),
         body: postsList(context));
+  }
+
+  Widget wasteagramTitle(BuildContext context) {
+    String? totalWaste;
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("posts")
+            .orderBy("date", descending: true)
+            .snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+            num total = 0;
+            snapshot.data!.docs.forEach((doc) {
+              total += doc['quantity'];
+            });
+            totalWaste = total.toString();
+            return Text("Wasteagram - ${totalWaste!}");
+          } else {
+            return const Text("Wasteagram");
+          }
+        });
   }
 
   Widget postsList(BuildContext context) {
@@ -52,7 +74,6 @@ class _PostsListScreenState extends State<PostsListScreen> {
                   trailing: Text(post.quantity.toString(),
                       style: Theme.of(context).textTheme.titleLarge),
                   onTap: () {
-                    // updateEntryView(posts[index]);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

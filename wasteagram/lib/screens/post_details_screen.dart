@@ -13,7 +13,7 @@ class PostDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        title: "Wasteagram",
+        title: const Text("Wasteagram"),
         body: postDetails(context, post!),
         button: const SizedBox(width: 0.0));
   }
