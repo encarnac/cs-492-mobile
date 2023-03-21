@@ -17,16 +17,14 @@ class Post {
 
   @override
   String toString() {
-    return "Date: ${date!.toString()}, Image URL: $imageURL, Quantity: $quantity, Latitude: $latitude, Longitude: $longitude";
+    return "Date: ${date.toString()}, Image URL: $imageURL, Quantity: $quantity, Latitude: $latitude, Longitude: $longitude";
   }
 
-  Map<String, dynamic> savePost() {
-    return {
-      "date": date,
-      "imageURL": imageURL,
-      "quantity": quantity,
-      "latitude": latitude,
-      "longitude": longitude
-    };
-  }
+  Map<String, dynamic> get values => {
+        "date": date,
+        "imageURL": imageURL,
+        "quantity": quantity,
+        "latitude": latitude,
+        "longitude": longitude
+      };
 }

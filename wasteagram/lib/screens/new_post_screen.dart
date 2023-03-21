@@ -21,7 +21,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   final formKey = GlobalKey<FormState>();
   final picker = ImagePicker();
   late bool uploading;
-  Post newEntryValues = Post();
+  Post newEntry = Post();
   File? image;
   Position? locationData;
   String? imageURL;
@@ -135,7 +135,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       onSaved: (value) {
-        newEntryValues.quantity = int.parse(value!);
+        newEntry.quantity = int.parse(value!);
       },
       validator: (value) {
         if (value!.isEmpty) {
@@ -156,36 +156,30 @@ class _NewPostScreenState extends State<NewPostScreen> {
         onPressed: () async {
           // Validate() calls each field's validator method and returns false if any fail
           if (formKey.currentState!.validate()) {
-            newEntryValues.date = Timestamp.now();
-            newEntryValues.latitude = locationData!.latitude;
-            newEntryValues.longitude = locationData!.longitude;
+            newEntry.date = Timestamp.now();
+            newEntry.latitude = locationData!.latitude;
+            newEntry.longitude = locationData!.longitude;
             setState(() {
               uploading = true;
             });
             formKey.currentState?.save();
             await getImageUrl();
             if (imageURL != null) {
-              newEntryValues.imageURL = imageURL!;
+              newEntry.imageURL = imageURL!;
               FirebaseFirestore.instance
                   .collection('posts')
-                  .add(newEntryValues.savePost());
+                  .add(newEntry.values);
             }
             if (context.mounted) {
               Navigator.of(context).pop();
             }
           }
         },
-        label: buttonIcon(),
+        label: uploading == false
+            ? const Icon(Icons.backup, size: 100.0)
+            : const CircularProgressIndicator(),
       ),
     );
-  }
-
-  Widget buttonIcon() {
-    if (!uploading) {
-      return const Icon(Icons.backup, size: 100.0);
-    } else {
-      return const CircularProgressIndicator();
-    }
   }
 
   double getMaxWidthOf(context) {
