@@ -6,18 +6,23 @@ import '../models/post.dart';
 
 class PostDetailsScreen extends StatelessWidget {
   static const routeName = "post-details";
+
+  // The post containing the details to display
   final Post? post;
 
   const PostDetailsScreen({super.key, this.post});
 
+  /// Creates basic layout of the screen
   @override
   Widget build(BuildContext context) {
+    // Creates basic layout of the screen
     return AppScaffold(
         title: const Text("Wasteagram"),
         body: postDetails(context, post!),
         button: const SizedBox(width: 0.0));
   }
 
+  /// Displays the properties of the received Post
   Widget postDetails(BuildContext context, Post post) {
     return Container(
       padding: EdgeInsets.symmetric(

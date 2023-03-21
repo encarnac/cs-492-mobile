@@ -112,7 +112,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 height: MediaQuery.of(context).size.width * .85,
               ),
               const SizedBox(height: 5),
-              quantityField(),
+              quantityField(context),
             ],
           ),
         ),
@@ -120,64 +120,79 @@ class _NewPostScreenState extends State<NewPostScreen> {
     }
   }
 
-  Widget quantityField() {
-    return TextFormField(
-      textAlign: TextAlign.center,
-      decoration: InputDecoration(
-        labelText: "Number of Wasted Items",
-        border: const UnderlineInputBorder(),
-        focusedBorder: UnderlineInputBorder(
-            borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.secondary)),
-        floatingLabelStyle:
-            TextStyle(color: Theme.of(context).colorScheme.secondary),
+  // Form field to input int for waste quantity
+  Widget quantityField(BuildContext context) {
+    return Semantics(
+      textField: true,
+      focusable: true,
+      label: "Number of wasted items",
+      hint: "Enter the number of wasted items for this new post",
+      child: TextFormField(
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(
+          labelText: "Number of Wasted Items",
+          border: const UnderlineInputBorder(),
+          focusedBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.secondary)),
+          floatingLabelStyle:
+              TextStyle(color: Theme.of(context).colorScheme.secondary),
+        ),
+        keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        onSaved: (value) {
+          newEntry.quantity = int.parse(value!);
+        },
+        validator: (value) {
+          if (value!.isEmpty) {
+            return "Please enter a number";
+          } else {
+            return null;
+          }
+        },
       ),
-      keyboardType: TextInputType.number,
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      onSaved: (value) {
-        newEntry.quantity = int.parse(value!);
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          return "Please enter a number";
-        } else {
-          return null;
-        }
-      },
     );
   }
 
   Widget postButton() {
-    return SizedBox(
-      width: getMaxWidthOf(context),
-      height: MediaQuery.of(context).size.width * .3,
-      child: FloatingActionButton.extended(
-        shape: const RoundedRectangleBorder(),
-        onPressed: () async {
-          // Validate() calls each field's validator method and returns false if any fail
-          if (formKey.currentState!.validate()) {
-            newEntry.date = Timestamp.now();
-            newEntry.latitude = locationData!.latitude;
-            newEntry.longitude = locationData!.longitude;
-            setState(() {
-              uploading = true;
-            });
-            formKey.currentState?.save();
-            await getImageUrl();
-            if (imageURL != null) {
-              newEntry.imageURL = imageURL!;
-              FirebaseFirestore.instance
-                  .collection('posts')
-                  .add(newEntry.values);
+    return Semantics(
+      button: true,
+      image: true,
+      link: true,
+      enabled: true,
+      label: "Large floating action button of a cloud backup icon",
+      onLongPressHint: "Saves entered values to a new post in the database",
+      child: SizedBox(
+        width: getMaxWidthOf(context),
+        height: MediaQuery.of(context).size.width * .3,
+        child: FloatingActionButton.extended(
+          shape: const RoundedRectangleBorder(),
+          onPressed: () async {
+            // Validate() calls each field's validator method and returns false if any fail
+            if (formKey.currentState!.validate()) {
+              newEntry.date = Timestamp.now();
+              newEntry.latitude = locationData!.latitude;
+              newEntry.longitude = locationData!.longitude;
+              setState(() {
+                uploading = true;
+              });
+              formKey.currentState?.save();
+              await getImageUrl();
+              if (imageURL != null) {
+                newEntry.imageURL = imageURL!;
+                FirebaseFirestore.instance
+                    .collection('posts')
+                    .add(newEntry.values);
+              }
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
             }
-            if (context.mounted) {
-              Navigator.of(context).pop();
-            }
-          }
-        },
-        label: uploading == false
-            ? const Icon(Icons.backup, size: 100.0)
-            : const CircularProgressIndicator(),
+          },
+          label: uploading == false
+              ? const Icon(Icons.backup, size: 100.0)
+              : const CircularProgressIndicator(),
+        ),
       ),
     );
   }
