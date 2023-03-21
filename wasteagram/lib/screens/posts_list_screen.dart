@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 import '../models/post.dart';
 import '../widgets/app_scaffold.dart';
@@ -34,7 +35,7 @@ class _PostsListScreenState extends State<PostsListScreen> {
             .orderBy("date", descending: true)
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
