@@ -21,19 +21,29 @@ class NewPostScreen extends StatefulWidget {
 
 class _NewPostScreenState extends State<NewPostScreen> {
   final formKey = GlobalKey<FormState>();
-  var newEntryValues = Post();
   final picker = ImagePicker();
-
+  late bool uploading;
+  Post newEntryValues = Post();
   File? image;
   Position? locationData;
-  String? url;
+  String? imageURL;
 
   @override
   void initState() {
     super.initState();
+    uploading = false;
     getImage();
     getLocation();
     // setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AppScaffold(
+      title: "New Post",
+      body: newEntryForm(),
+      button: postButton(),
+    );
   }
 
   void getImage() async {
@@ -51,9 +61,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
     var fileName = '${DateTime.now()}.jpg';
     Reference storageReference = FirebaseStorage.instance.ref().child(fileName);
     UploadTask uploadTask = storageReference.putFile(image!);
-    await uploadTask;
-    url = await storageReference.getDownloadURL();
-    // print(url);
+    var url = await (await uploadTask).ref.getDownloadURL();
+    imageURL = url;
   }
 
   void cancelNewPost() {
@@ -66,9 +75,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
 
   void getLocation() async {
     Position position = await _getLocation();
-    setState(() {
-      locationData = position;
-    });
+    locationData = position;
+    setState(() {});
   }
 
   Future _getLocation() async {
@@ -92,15 +100,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
           "Location permissions are permanently denied, we cannot request permissions.");
     }
     return await Geolocator.getCurrentPosition();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AppScaffold(
-      title: "New Post",
-      body: newEntryForm(),
-      button: postButton(),
-    );
   }
 
   Widget newEntryForm() {
@@ -164,33 +163,40 @@ class _NewPostScreenState extends State<NewPostScreen> {
       width: getMaxWidthOf(context),
       height: MediaQuery.of(context).size.width * .3,
       child: FloatingActionButton.extended(
-          shape: const RoundedRectangleBorder(),
-          onPressed: () {
-            savePost();
+        shape: const RoundedRectangleBorder(),
+        onPressed: () async {
+          // Validate() calls each field's validator method and returns false if any fail
+          if (formKey.currentState!.validate()) {
+            String date = DateFormat.yMMMMEEEEd().format(DateTime.now());
+            newEntryValues.date = date;
+            newEntryValues.latitude = locationData!.latitude;
+            newEntryValues.longitude = locationData!.longitude;
+            setState(() {
+              uploading = true;
+            });
+            formKey.currentState?.save();
+            await getImageUrl();
+            if (imageURL != null) {
+              newEntryValues.imageURL = imageURL!;
+              FirebaseFirestore.instance
+                  .collection('posts')
+                  .add(newEntryValues.savePost());
+            }
+          }
+          if (context.mounted) {
             Navigator.of(context).pop();
-          },
-          label: const Icon(Icons.backup, size: 100.0)),
+          }
+        },
+        label: buttonIcon(),
+      ),
     );
   }
 
-  void savePost() async {
-    // Validate() calls each field's validator method and returns false if any fail
-    if (formKey.currentState!.validate()) {
-      String date = DateFormat.yMMMMEEEEd().format(DateTime.now());
-      newEntryValues.date = date;
-      if (locationData != null) {
-        newEntryValues.latitude = locationData!.latitude;
-        newEntryValues.longitude = locationData!.longitude;
-      }
-      formKey.currentState?.save();
-
-      await getImageUrl();
-      newEntryValues.imageURL = url!;
-      // formKey.currentState?.save();
-      print(newEntryValues.toString());
-      FirebaseFirestore.instance
-          .collection('posts')
-          .add(newEntryValues.savePost());
+  Widget buttonIcon() {
+    if (!uploading) {
+      return const Icon(Icons.backup, size: 100.0);
+    } else {
+      return const CircularProgressIndicator();
     }
   }
 

@@ -1,13 +1,13 @@
 class Post {
   late String date;
-  late String imageURL;
+  late String? imageURL;
   late int quantity;
   late double latitude;
   late double longitude;
 
   Post({
     this.date = '',
-    this.imageURL = '',
+    this.imageURL,
     this.quantity = 0,
     this.latitude = 0,
     this.longitude = 0,

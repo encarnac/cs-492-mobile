@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 import '../widgets/app_scaffold.dart';
 import '../models/post.dart';
 
@@ -27,8 +28,9 @@ class PostDetailsScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Text(post.date, style: Theme.of(context).textTheme.headlineSmall),
-          Image.network(
-            post.imageURL,
+          FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
+            image: post.imageURL!,
             // width: MediaQuery.of(context).size.width * .9,
             height: MediaQuery.of(context).size.height * .5,
           ),
