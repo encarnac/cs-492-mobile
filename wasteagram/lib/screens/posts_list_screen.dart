@@ -21,7 +21,7 @@ class _PostsListScreenState extends State<PostsListScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
         title: wasteagramTitle(context),
-        button: newPostButton(context),
+        faButton: newPostButton(context),
         body: postsList(context));
   }
 
@@ -38,9 +38,13 @@ class _PostsListScreenState extends State<PostsListScreen> {
           if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
             // Calculate total number of waste from data in stream
             num total = 0;
-            snapshot.data!.docs.forEach((doc) {
+            for (var doc in snapshot.data!.docs) {
               total += doc['quantity'];
-            });
+            }
+            // Avood function literals
+            // snapshot.data!.docs.forEach((doc) {
+            //   total += doc['quantity'];
+            // });
             totalWaste = total.toString();
             return Text("Wasteagram - ${totalWaste!}");
           } else {

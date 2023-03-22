@@ -521,7 +521,7 @@ packages:
     source: hosted
     version: "7.2.0"
   sentry_flutter:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: sentry_flutter
       sha256: "038607c578d2601c63ced78a503c23d7b25f24bd3c24492cadfc47bc9cbb6636"

@@ -18,9 +18,9 @@ class PostDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Creates basic layout of the screen
     return AppScaffold(
-        title: const Text("Wasteagram"),
-        body: postDetails(context, post!),
-        button: const SizedBox(width: 0.0));
+      title: const Text("Wasteagram"),
+      body: postDetails(context, post!),
+    );
   }
 
   /// Displays the properties of the selected Post
@@ -31,7 +31,7 @@ class PostDetailsScreen extends StatelessWidget {
         horizontal: MediaQuery.of(context).size.height * .04,
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.max,
         children: [
           /// Date

@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 class AppScaffold extends StatelessWidget {
   final Widget title;
   final Widget body;
-  final Widget? button;
+  final Widget? faButton;
+  final Widget? bottomNavButton;
 
-  const AppScaffold(
-      {Key? key, required this.title, required this.body, this.button})
-      : super(key: key);
+  const AppScaffold({
+    Key? key,
+    required this.title,
+    required this.body,
+    this.faButton,
+    this.bottomNavButton,
+  }) : super(key: key);
 
   /// Displays reusable scaffold shared between different screens
   @override
@@ -17,10 +22,11 @@ class AppScaffold extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(title: title),
           body: Center(child: body),
-          floatingActionButton: button,
           resizeToAvoidBottomInset: false,
+          floatingActionButton: faButton,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: bottomNavButton,
         ));
   }
 }

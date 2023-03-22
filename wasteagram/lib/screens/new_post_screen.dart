@@ -41,7 +41,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     return AppScaffold(
       title: const Text("New Post"),
       body: newEntryForm(),
-      button: postButton(),
+      bottomNavButton: postButton(context),
     );
   }
 
@@ -58,8 +58,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
         child: Form(
           key: formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // Displays image selected
               Image.file(
@@ -114,7 +114,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     );
   }
 
-  Widget postButton() {
+  Widget postButton(BuildContext context) {
     return Semantics(
       button: true,
       image: true,
@@ -124,7 +124,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       onLongPressHint: "Saves entered values to a new post in the database",
       child: SizedBox(
         width: getMaxWidthOf(context),
-        height: MediaQuery.of(context).size.width * .3,
+        height: MediaQuery.of(context).size.height * .15,
         child: FloatingActionButton.extended(
           shape: const RoundedRectangleBorder(),
           onPressed: () async {
@@ -174,8 +174,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
       image = File(pickedFile.path);
       setState(() {});
     } else {
-      /// Returns to home screen if photo selection cancelled
-      Navigator.of(context).pop();
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
     }
   }
 
