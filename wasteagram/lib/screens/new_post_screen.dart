@@ -5,8 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
-import '../widgets/app_scaffold.dart';
 import '../models/post.dart';
+import '../widgets/app_scaffold.dart';
 
 class NewPostScreen extends StatefulWidget {
   static const routeName = "new-entry";

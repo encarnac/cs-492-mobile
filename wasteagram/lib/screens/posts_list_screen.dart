@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import '../models/post.dart';
-import '../widgets/app_scaffold.dart';
 import 'new_post_screen.dart';
 import 'post_details_screen.dart';
+import '../models/post.dart';
+import '../widgets/app_scaffold.dart';
 
 class PostsListScreen extends StatefulWidget {
   static const routeName = "/";
@@ -116,6 +116,9 @@ class _PostsListScreenState extends State<PostsListScreen> {
       child: FloatingActionButton(
         onPressed: () =>
             Navigator.of(context).pushNamed(NewPostScreen.routeName),
+        // onPressed: () {
+        //   throw StateError('EXAMPLE ERROR!');
+        // },
         child: const Icon(Icons.photo_camera, size: 35.0),
       ),
     );

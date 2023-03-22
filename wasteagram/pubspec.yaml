@@ -17,10 +17,14 @@ dependencies:
   firebase_core: ^2.8.0
   cloud_firestore: ^4.4.5
   firebase_storage: ^11.0.16
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   test: ^1.22.0
   flutter_lints: ^2.0.0
+  sentry_flutter: ^7.2.0
 
 flutter:
   uses-material-design: true
+  assets:
+    - lib/.env

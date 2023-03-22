@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
 import 'package:intl/intl.dart';
-import '../widgets/app_scaffold.dart';
+import 'package:transparent_image/transparent_image.dart';
 import '../models/post.dart';
+import '../widgets/app_scaffold.dart';
 
 class PostDetailsScreen extends StatelessWidget {
   /// Named route

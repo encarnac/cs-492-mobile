@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'screens/new_post_screen.dart';
 import 'screens/post_details_screen.dart';
 import 'screens/posts_list_screen.dart';
 
 class App extends StatefulWidget {
+  static Future<void> reportError(dynamic error, dynamic stackTrace) async {
+    final sentryId =
+        await Sentry.captureException(error, stackTrace: stackTrace);
+    sentryId.toString();
+  }
+
   const App({super.key});
 
   @override
