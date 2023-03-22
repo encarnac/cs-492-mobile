@@ -12,9 +12,7 @@ Future<void> main() async {
   await dotenv.load(fileName: "lib/.env");
   final dsnURL = dotenv.env['DSN'];
   await SentryFlutter.init(
-    (options) {
-      options.dsn = dsnURL;
-    },
+    (options) => options.dsn = dsnURL,
     appRunner: () => runApp(const App()),
   );
 }
