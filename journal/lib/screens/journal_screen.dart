@@ -54,22 +54,16 @@ class _JournalScreenState extends State<JournalScreen> {
       );
     } else {
       return JournalScaffold(
-          title: journal.isEmpty ? "Welcome" : "Journal Entries",
-          child: journal.isEmpty
-              ? const Welcome()
-              : LayoutBuilder(builder: journalViews));
+          title: journal.isEmpty ? "Journal" : "Journal Entries",
+          child: journal.isEmpty ? const Welcome() : LayoutBuilder(builder: journalViews));
     }
   }
 
-  Widget journalViews(BuildContext context, BoxConstraints constraints) =>
-      constraints.maxWidth < 800
-          ? VerticalLayout(
-              journal: journal,
-              currentEntry: currentEntry,
-              updateEntryView: updateEntryView)
-          : HorizontalLayout(
-              journal: journal,
-              currentEntry: currentEntry,
-              updateEntryView: updateEntryView,
-            );
+  Widget journalViews(BuildContext context, BoxConstraints constraints) => constraints.maxWidth < 800
+      ? VerticalLayout(journal: journal, currentEntry: currentEntry, updateEntryView: updateEntryView)
+      : HorizontalLayout(
+          journal: journal,
+          currentEntry: currentEntry,
+          updateEntryView: updateEntryView,
+        );
 }

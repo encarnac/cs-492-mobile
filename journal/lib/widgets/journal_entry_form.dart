@@ -47,11 +47,8 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
       decoration: InputDecoration(
         labelText: "Title",
         border: const OutlineInputBorder(),
-        focusedBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.secondary)),
-        floatingLabelStyle:
-            TextStyle(color: Theme.of(context).colorScheme.secondary),
+        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary)),
+        floatingLabelStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
       ),
       onSaved: (value) {
         journalEntryValues.title = value.toString();
@@ -71,13 +68,13 @@ class _JournalEntryFormState extends State<JournalEntryForm> {
       autofocus: true,
       decoration: InputDecoration(
         labelText: "Body",
+        contentPadding: const EdgeInsets.all(8),
         border: const OutlineInputBorder(),
-        focusedBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.secondary)),
-        floatingLabelStyle:
-            TextStyle(color: Theme.of(context).colorScheme.secondary),
+        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary)),
+        floatingLabelStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
       ),
+      maxLines: 10,
+      minLines: 10,
       onSaved: (value) {
         journalEntryValues.body = value.toString();
       },

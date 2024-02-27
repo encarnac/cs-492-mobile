@@ -6,8 +6,7 @@ import 'screens/posts_list_screen.dart';
 
 class App extends StatefulWidget {
   static Future<void> reportError(dynamic error, dynamic stackTrace) async {
-    final sentryId =
-        await Sentry.captureException(error, stackTrace: stackTrace);
+    final sentryId = await Sentry.captureException(error, stackTrace: stackTrace);
     sentryId.toString();
   }
 
@@ -33,6 +32,7 @@ class _AppState extends State<App> {
         primarySwatch: Colors.teal,
       ),
       routes: routes,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
